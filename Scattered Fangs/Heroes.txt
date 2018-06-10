@@ -1,0 +1,16 @@
+Karla
+Ike,Ayra,Alm,Ares,Elincia,Eldigan,Karel,Exalted Chrom,Gray,Sigurd,Siegbert,Saber,Zelgius,Soleil,Reinhardt (WT),Ryoma,Lyn,Leif,Lene,Lucina,Luke,Mia,Roy,Fallen Celica,Tiki (Young),Eirika (SM),Katarina,Sanaki,Celica,Morgan (M),Leo
+Athena,Ares,Eirika,Eliwood,Ogma,Olivia,Cain,Hana,Corrin (M),Chrom,Caeda,Seliph,Seth,Soleil,Stahl,Draug,Palla,Hinata,Fir,Marth,Laslow,Selena,Roy,Lon'qu,Tiki (Adult),Tharja,Sophia,Henry,Morgan (M),Lilina,Raigh
+Athena,Eirika,Eliwood,Ogma,Olivia,Cain,Hana,Corrin (M),Chrom,Caeda,Seliph,Seth,Stahl,Draug,Palla,Hinata,Fir,Marth,Laslow,Selena,Roy,Lon'qu,Tiki (Adult),Tharja,Sophia,Henry,Lilina,Raigh
+None
+Azura,Ephraim,Shigure,Shiro,Tana,Nephenee,Hinoka,Hardin,Brave Lucina,Ninian,Ishtar,Olwen,Tailtiu,Delthea,Morgan (F),Micaiah,L'Arachel,Linde,Lute
+Abel,Gwendolyn,Est,Effie,Oscar,Oboro,Catria,Clair,Shigure,Shanna,Jagen,Sully,Subaki,Cordelia,Donnel,Peri,Florina,Mathilda,Lukas,Roderick,Corrin (F),Nowi,Odin,Tailtiu,Mae,Reinhardt,L'Arachel,Robin (M)
+Abel,Gwendolyn,Est,Effie,Oscar,Oboro,Catria,Clair,Shanna,Jagen,Sully,Subaki,Cordelia,Donnel,Peri,Florina,Mathilda,Lukas,Roderick,Corrin (F),Nowi,Odin,Mae,Reinhardt,Robin (M)
+Nino (SF)
+Amelia,Dorcas,Hector,Minerva,Brave Ike,Kana (F),Myrrh,Fallen Robin (M),Olwen (WT),Rhajat,Sonya,Deirdre,Julia
+Camilla,Gunter,Sheena,Cherche,Titania,Arthur,Bartre,Barst,Frederick,Beruka,Hawkeye,Raven,Fae,Cecilia,Soren,Nino,Boey,Merric
+Camilla,Gunter,Sheena,Cherche,Titania,Arthur,Bartre,Barst,Frederick,Beruka,Hawkeye,Raven,Fae,Cecilia,Soren,Nino,Boey,Merric
+Legault
+Faye,Takumi,Hinoka (WF),Innes,Brave Lyn,Sothe,Jaffar,Elise,Genny,Nanna,Mist
+Klein,Gordin,Jeorge,Setsuna,Niles,Leon,Rebecca,Virion,Kagero,Gaius,Saizo,Sothe,Jakob,Kaze,Felicia,Matthew,Azama,Clarine,Sakura,Serra,Nanna,Priscilla,Maria,Lachesis,Lissa,Wrys,Lucius
+Klein,Gordin,Jeorge,Setsuna,Niles,Leon,Rebecca,Virion,Kagero,Gaius,Saizo,Jakob,Kaze,Felicia,Matthew,Azama,Clarine,Sakura,Serra,Priscilla,Maria,Lachesis,Lissa,Wrys,Lucius
