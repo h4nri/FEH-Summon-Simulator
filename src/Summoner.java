@@ -46,13 +46,36 @@ public class Summoner {
 		summonedThreeList = new ArrayList<String>();
 	}
 	
+	public double getCurrentFocusRate() {
+		return currentFocusRate;
+	}
+	
+	public double getCurrentFiveRate() {
+		return currentFiveRate;
+	}
+	
+	public double getCurrentFourRate() {
+		return currentFourRate;
+	}
+	
+	public double getCurrentThreeRate() {
+		return currentThreeRate;
+	}
+	
 	// TODO: Describe this method.
-	public void pull(int pulls) {
+	public List<String>[] pull(int pulls) {
+		List<String>[] listArray = new List[2];
+		
 		if (pulls < 1 || pulls > 5) {
 			System.out.println("Error: Invalid number of pulls entered. Please enter a value from 1-5.");
 		} else {
 			int counter = 1;
 			boolean focusOrFiveSummoned = false;
+			
+			List newFocusList = new ArrayList<String>();
+			List newFiveList = new ArrayList<String>();
+			listArray[0] = newFocusList;
+			listArray[1] = newFiveList;
 			
 			while (counter <= pulls) {
 				double determineRarity = Math.random();
@@ -60,10 +83,12 @@ public class Summoner {
 				if ((0.0 <= determineRarity) && (determineRarity < currentFocusRate)) {
 					int determineHero = ThreadLocalRandom.current().nextInt(0, focusList.size());
 					summonedFocusList.add(focusList.get(determineHero));
+					newFocusList.add(focusList.get(determineHero));
 					focusOrFiveSummoned = true;
 				} else if ((currentFocusRate <= determineRarity) && (determineRarity < (currentFocusRate + currentFiveRate))) {
 					int determineHero = ThreadLocalRandom.current().nextInt(0, fiveList.size());
 					summonedFiveList.add(fiveList.get(determineHero));
+					newFiveList.add(fiveList.get(determineHero));
 					focusOrFiveSummoned = true;
 				} else if (((currentFocusRate + currentFiveRate) <= determineRarity) && (determineRarity < currentFocusRate + currentFiveRate + currentFourRate)) {
 					int determineHero = ThreadLocalRandom.current().nextInt(0, fourList.size());
@@ -101,12 +126,14 @@ public class Summoner {
 			totalPulls = totalPulls + pulls;			
 			System.out.println("Total pulls: " + totalPulls);
 		}
+		
+		return listArray;
 	}
 	
 	// TODO: Describe this method.
-	private void setupBanner(String bannerName) {
+	public void setupBanner(String bannerName) {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(bannerName + "\\Heroes.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("Banners\\" + bannerName + "\\Heroes.txt"));
 			String line;
 			
 			// Fills the color-grade lists (ex. redFocusList).
@@ -218,11 +245,5 @@ public class Summoner {
 		
 		pullsWithoutFocusOrFive = 0;
 		totalPulls = 0;
-	}
-	
-	public static void main(String[] args) {
-		Summoner summoner = new Summoner();
-		summoner.setupBanner("Scattered Fangs");
-		summoner.pull(5);
 	}
 }
