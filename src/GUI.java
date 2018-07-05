@@ -10,15 +10,18 @@ import javax.swing.*;
 
 public class GUI implements ActionListener {
 	
+	private int sessionCount;
+	
 	private JButton massSummonButton, selectBannerButton, summonButton;
 	private JComboBox bannersComboBox;
 	private JFrame mainFrame;
 	private JLabel currentFocusRateLabel, currentFiveRateLabel, currentFourRateLabel, currentThreeRateLabel, imageLabel;
-	private JPanel appearancePanel, bannerPanel, bannerSelectPanel, heroesSummonedPanel, mainPanel, radioButtonsPanel, 
-		resultPanel, summonPanel, summonedFocusPanel, summonedFivePanel;
+	private JPanel appearancePanel, bannerPanel, bannerSelectPanel, formatPanel, fundamentalsPanel, heroesSummonedPanel, mainPanel, radioButtonsPanel, 
+		resultPanel, sessionsPanel, summonPanel, summonedFocusPanel, summonedFivePanel, summonNumberPanel, summonPreferencesPanel;
 	private JRadioButton oneRadioButton, twoRadioButton, threeRadioButton, fourRadioButton, fiveRadioButton;
-	private JScrollPane focusScrollPane, fiveScrollPane;
+	private JScrollPane focusScrollPane, fiveScrollPane, sessionsScrollPane;
 	private JTextField summonTextField;
+	private JToggleButton redPreferenceButton, bluePreferenceButton, greenPreferenceButton, colorlessPreferenceButton;
 	
 	private ButtonGroup buttonGroup;
 	private Summoner summoner;
@@ -26,17 +29,22 @@ public class GUI implements ActionListener {
 	public GUI() {
 		mainFrame = new JFrame("Fire Emblem Heroes Summon Simulator");
 		mainPanel = new JPanel(new BorderLayout());
+		fundamentalsPanel = new JPanel(new BorderLayout());
 		bannerPanel = new JPanel(new BorderLayout());
 		bannerSelectPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 3));
-		summonPanel = new JPanel(new GridBagLayout());
+		summonPanel = new JPanel(new BorderLayout());
+		summonPreferencesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 6, 6));
+		summonNumberPanel = new JPanel(new GridBagLayout());
 		resultPanel = new JPanel(new BorderLayout());
 		appearancePanel = new JPanel(new GridBagLayout());
 		heroesSummonedPanel = new JPanel(new GridBagLayout());
+		sessionsPanel = new JPanel(new GridBagLayout());
+		formatPanel = new JPanel(new BorderLayout());
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.insets = new Insets(6, 3, 0, 3);
+		constraints.insets = new Insets(3, 3, 0, 3);
 		
 		// Sets up bannerSelectPanel.		
 		JLabel bannerLabel = new JLabel("Banner:", SwingConstants.CENTER);
@@ -67,6 +75,32 @@ public class GUI implements ActionListener {
 		imageLabel = new JLabel(new ImageIcon("Banners\\" + bannersComboBox.getSelectedItem() + "\\Image.png"));
 		imageLabel.setPreferredSize(new Dimension(428, 301));   // TODO: Change these dimensions to match whatever standard I decide on in the future.
 		bannerPanel.add(imageLabel, BorderLayout.CENTER);
+		
+		// Sets up summonPreferencesPanel.
+		// TODO: Change the ImageIcons.
+		ImageIcon preferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");	
+		redPreferenceButton = new JToggleButton(preferenceImage, true);
+		redPreferenceButton.addActionListener(this);
+		redPreferenceButton.setPreferredSize(new Dimension(50, 50));
+		summonPreferencesPanel.add(redPreferenceButton);
+		
+		preferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");	
+		bluePreferenceButton = new JToggleButton(preferenceImage, true);
+		bluePreferenceButton.addActionListener(this);
+		bluePreferenceButton.setPreferredSize(new Dimension(50, 50));
+		summonPreferencesPanel.add(bluePreferenceButton);
+		
+		preferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");	
+		greenPreferenceButton = new JToggleButton(preferenceImage, true);
+		greenPreferenceButton.addActionListener(this);
+		greenPreferenceButton.setPreferredSize(new Dimension(50, 50));
+		summonPreferencesPanel.add(greenPreferenceButton);
+		
+		preferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");	
+		colorlessPreferenceButton = new JToggleButton(preferenceImage, true);
+		colorlessPreferenceButton.addActionListener(this);
+		colorlessPreferenceButton.setPreferredSize(new Dimension(50, 50));
+		summonPreferencesPanel.add(colorlessPreferenceButton);
 			
 		// Sets up radio buttons.
 		oneRadioButton = new JRadioButton("1");
@@ -96,7 +130,7 @@ public class GUI implements ActionListener {
 		radioButtonsPanel.add(fourRadioButton);
 		radioButtonsPanel.add(fiveRadioButton);
 		radioButtonsPanel.setPreferredSize(new Dimension(185, 25));
-		summonPanel.add(radioButtonsPanel, constraints);
+		summonNumberPanel.add(radioButtonsPanel, constraints);
 		
 		// Sets up remaining components of summonPanel (summonButton, massSummonButton, & summonTextField).
 		summonButton = new JButton("Summon");
@@ -104,20 +138,23 @@ public class GUI implements ActionListener {
 		summonButton.setBackground(Color.WHITE);
 		summonButton.setPreferredSize(new Dimension(120, 25));
 		constraints.gridx = 1;
-		summonPanel.add(summonButton, constraints);
+		summonNumberPanel.add(summonButton, constraints);
 		
 		massSummonButton = new JButton("Mass Summon");
 		massSummonButton.addActionListener(this);
 		massSummonButton.setBackground(Color.WHITE);
 		massSummonButton.setPreferredSize(new Dimension(120, 25));
 		constraints.gridy = 1;
-		summonPanel.add(massSummonButton, constraints);
+		summonNumberPanel.add(massSummonButton, constraints);
 		
 		summonTextField = new JTextField();
 		summonTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		summonTextField.setPreferredSize(new Dimension(185, 25));
 		constraints.gridx = 0;
-		summonPanel.add(summonTextField, constraints);
+		summonNumberPanel.add(summonTextField, constraints);
+		
+		summonPanel.add(summonPreferencesPanel, BorderLayout.NORTH);
+		summonPanel.add(summonNumberPanel, BorderLayout.CENTER);
 		
 		// Sets up the summoner.
 		summoner = new Summoner();
@@ -213,9 +250,35 @@ public class GUI implements ActionListener {
 		
 		resultPanel.add(heroesSummonedPanel, BorderLayout.CENTER);
 		
-		mainPanel.add(bannerPanel, BorderLayout.NORTH);
-		mainPanel.add(summonPanel, BorderLayout.CENTER);
-		mainPanel.add(resultPanel, BorderLayout.SOUTH);
+		fundamentalsPanel.add(bannerPanel, BorderLayout.NORTH);
+		fundamentalsPanel.add(summonPanel, BorderLayout.CENTER);
+		fundamentalsPanel.add(resultPanel, BorderLayout.SOUTH);
+		mainPanel.add(fundamentalsPanel, BorderLayout.CENTER);
+		
+		// Sets up sessionsPanel and sessionsScrollPane.
+		sessionCount = 1;
+		
+		JLabel sessionLabel = new JLabel("Session", SwingConstants.CENTER);
+		sessionLabel.setBackground(Color.WHITE);
+		sessionLabel.setPreferredSize(new Dimension(75, 25));
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.insets = new Insets(0, 0, 0, 0);
+		sessionsPanel.add(sessionLabel, constraints);
+		
+		JLabel sessionHeroesLabel = new JLabel("Heroes Summoned", SwingConstants.CENTER);
+		sessionHeroesLabel.setBackground(Color.WHITE);
+		sessionHeroesLabel.setPreferredSize(new Dimension(300, 25));
+		constraints.gridx = 1;
+		sessionsPanel.add(sessionHeroesLabel, constraints);
+		
+		formatPanel.add(sessionsPanel, BorderLayout.NORTH);
+		sessionsScrollPane = new JScrollPane(formatPanel);
+		sessionsScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		sessionsScrollPane.setBorder(BorderFactory.createEmptyBorder());
+		sessionsScrollPane.setPreferredSize(new Dimension(400, 1));
+		
+		mainPanel.add(sessionsScrollPane, BorderLayout.EAST);
 		
 		// Sets up the mainFrame.
 		mainFrame.setContentPane(mainPanel);
@@ -248,6 +311,10 @@ public class GUI implements ActionListener {
 				currentThreeRateLabel.setText(Double.toString(summoner.getCurrentThreeRate()));
 				summonedFocusPanel.removeAll();
 				summonedFivePanel.removeAll();
+				
+				sessionsPanel.removeAll();
+				sessionCount = 1;
+				
 				mainPanel.repaint();
 				mainPanel.revalidate();
 			}
@@ -261,18 +328,17 @@ public class GUI implements ActionListener {
 			
 			resultPanel.revalidate();
 		} else if (action.equals("Mass Summon")) {
-			int pulls = Integer.parseInt(summonTextField.getText());
-			int fivePulls = Math.floorDiv(pulls, 5);
-			int pullsAfterFivePulls = pulls % 5;
-			int counter = 1;
+			int pullsRemaining = Integer.parseInt(summonTextField.getText());
 			
-			while (counter <= fivePulls) {	
-				addToSummonedPanels(summoner.pull(5));
-				counter++;
-			}
-			
-			if (pullsAfterFivePulls != 0) {
-				addToSummonedPanels(summoner.pull(pulls % 5));
+			while (pullsRemaining != 0) {			
+				if (pullsRemaining >= 5) {
+					addToSummonedPanels(summoner.pull(5));		
+				} else {
+					addToSummonedPanels(summoner.pull(pullsRemaining));
+				}
+				
+				System.out.println("Session Pulls: " + summoner.getSessionPulls());
+				pullsRemaining = pullsRemaining - summoner.getSessionPulls();
 			}
 			
 			currentFocusRateLabel.setText(Double.toString(summoner.getCurrentFocusRate()));
@@ -280,22 +346,126 @@ public class GUI implements ActionListener {
 			currentFourRateLabel.setText(Double.toString(summoner.getCurrentFourRate()));
 			currentThreeRateLabel.setText(Double.toString(summoner.getCurrentThreeRate()));
 			
-			resultPanel.revalidate();
+			resultPanel.revalidate();		
+		// TODO: Change the ImageIcons.
+		} else if (e.getSource().equals(redPreferenceButton)) {
+			if (summoner.changePreferredColors("red") == true) {
+				ImageIcon newPreferenceImage;
+				
+				if (redPreferenceButton.isSelected() == true) {
+					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+				} else {
+					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+				}
+				
+				redPreferenceButton.setIcon(newPreferenceImage);
+				redPreferenceButton.revalidate();
+			} else {
+				redPreferenceButton.setSelected(true);
+				JOptionPane.showMessageDialog(mainFrame, "You must have at least one color that you wish to summon.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (e.getSource().equals(bluePreferenceButton)) {
+			if (summoner.changePreferredColors("blue") == true) {
+				ImageIcon newPreferenceImage;
+				
+				if (bluePreferenceButton.isSelected() == true) {
+					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+				} else {
+					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+				}
+				
+				bluePreferenceButton.setIcon(newPreferenceImage);
+				bluePreferenceButton.revalidate();
+			} else {
+				bluePreferenceButton.setSelected(true);
+				JOptionPane.showMessageDialog(mainFrame, "You must have at least one color that you wish to summon.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (e.getSource().equals(greenPreferenceButton)) {
+			if (summoner.changePreferredColors("green") == true) {
+				ImageIcon newPreferenceImage;
+				
+				if (greenPreferenceButton.isSelected() == true) {
+					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+				} else {
+					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+				}
+				
+				greenPreferenceButton.setIcon(newPreferenceImage);
+				greenPreferenceButton.revalidate();
+			} else {
+				greenPreferenceButton.setSelected(true);
+				JOptionPane.showMessageDialog(mainFrame, "You must have at least one color that you wish to summon.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (e.getSource().equals(colorlessPreferenceButton)) {
+			if (summoner.changePreferredColors("colorless") == true) {
+				ImageIcon newPreferenceImage;
+				
+				if (colorlessPreferenceButton.isSelected() == true) {
+					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+				} else {
+					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+				}
+				
+				colorlessPreferenceButton.setIcon(newPreferenceImage);
+				colorlessPreferenceButton.revalidate();
+			} else {
+				colorlessPreferenceButton.setSelected(true);
+				JOptionPane.showMessageDialog(mainFrame, "You must have at least one color that you wish to summon.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	
 	// Takes the returned List<String>[] from the Summoner class's "pull" method and updates the summoned panels.
 	private void addToSummonedPanels(List<String>[] listArray) {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.gridy = sessionCount;
+		
+		JLabel sessionCountLabel = new JLabel(Integer.toString(sessionCount), SwingConstants.CENTER);
+		sessionCountLabel.setPreferredSize(new Dimension(75, 50));
+		sessionsPanel.add(sessionCountLabel, constraints);
+		
+		JPanel sessionSummonedPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		
 		for (int i = 0; i < listArray[0].size(); i++) {
-			JLabel label = new JLabel(listArray[0].get(i), SwingConstants.CENTER);
-			label.setAlignmentX(Component.CENTER_ALIGNMENT);
-			summonedFocusPanel.add(label);
+			JLabel nameLabel = new JLabel(listArray[0].get(i), SwingConstants.CENTER);
+			nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			summonedFocusPanel.add(nameLabel);
+			
+			JLabel imageLabel = new JLabel(new ImageIcon("Hero Icons\\" + listArray[0].get(i) + ".png"));
+			imageLabel.setPreferredSize(new Dimension(50, 50));
+			sessionSummonedPanel.add(imageLabel);
 		}
 		
 		for (int j = 0; j < listArray[1].size(); j++) {
 			JLabel label = new JLabel(listArray[1].get(j), SwingConstants.CENTER);
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
 			summonedFivePanel.add(label);
+			
+			JLabel imageLabel = new JLabel(new ImageIcon("Hero Icons\\" + listArray[1].get(j) + ".png"));
+			imageLabel.setPreferredSize(new Dimension(50, 50));
+			sessionSummonedPanel.add(imageLabel);
 		}
+		
+		for (int k = 0; k < listArray[2].size(); k++) {			
+			JLabel imageLabel = new JLabel(new ImageIcon("Hero Icons\\" + listArray[2].get(k) + ".png"));
+			imageLabel.setPreferredSize(new Dimension(50, 50));
+			sessionSummonedPanel.add(imageLabel);
+		}
+		
+		for (int l = 0; l < listArray[3].size(); l++) {
+			JLabel imageLabel = new JLabel(new ImageIcon("Hero Icons\\" + listArray[3].get(l) + ".png"));
+			imageLabel.setPreferredSize(new Dimension(50, 50));
+			sessionSummonedPanel.add(imageLabel);
+		}
+		
+		constraints.gridx = 1;
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		sessionsPanel.add(sessionSummonedPanel, constraints);
+		
+		sessionCount++;
+		sessionsScrollPane.revalidate();
+		JScrollBar sessionsScrollBar = sessionsScrollPane.getVerticalScrollBar();
+		sessionsScrollBar.setValue(sessionsScrollBar.getMaximum());
 	}
 }

@@ -3,7 +3,7 @@ Ike,Ayra,Alm,Ares,Elincia,Eldigan,Karel,Exalted Chrom,Gray,Sigurd,Siegbert,Saber
 Athena,Ares,Eirika,Eliwood,Ogma,Olivia,Cain,Hana,Corrin (M),Chrom,Caeda,Seliph,Seth,Soleil,Stahl,Draug,Palla,Hinata,Fir,Marth,Laslow,Selena,Roy,Lon'qu,Tiki (Adult),Tharja,Sophia,Henry,Morgan (M),Lilina,Raigh
 Athena,Eirika,Eliwood,Ogma,Olivia,Cain,Hana,Corrin (M),Chrom,Caeda,Seliph,Seth,Stahl,Draug,Palla,Hinata,Fir,Marth,Laslow,Selena,Roy,Lon'qu,Tiki (Adult),Tharja,Sophia,Henry,Lilina,Raigh
 None
-Azura,Ephraim,Shigure,Shiro,Tana,Nephenee,Hinoka,Hardin,Brave Lucina,Ninian,Ishtar,Olwen,Tailtiu,Delthea,Morgan (F),Micaiah,L'Arachel,Linde,Lute
+Azura,Ephraim,Shigure,Shiro,Tana,Nephenee,Hinoka,Fallen Hardin,Brave Lucina,Ninian,Ishtar,Olwen,Tailtiu,Delthea,Morgan (F),Micaiah,L'Arachel,Linde,Lute
 Abel,Gwendolyn,Est,Effie,Oscar,Oboro,Catria,Clair,Shigure,Shanna,Jagen,Sully,Subaki,Cordelia,Donnel,Peri,Florina,Mathilda,Lukas,Roderick,Corrin (F),Nowi,Odin,Tailtiu,Mae,Reinhardt,L'Arachel,Robin (M)
 Abel,Gwendolyn,Est,Effie,Oscar,Oboro,Catria,Clair,Shanna,Jagen,Sully,Subaki,Cordelia,Donnel,Peri,Florina,Mathilda,Lukas,Roderick,Corrin (F),Nowi,Odin,Mae,Reinhardt,Robin (M)
 Nino (SF)
