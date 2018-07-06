@@ -10,14 +10,52 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Summoner {
 	
-	private int pullsWithoutFocusOrFive, sessionPulls, totalPulls, redHeroes, blueHeroes, greenHeroes, colorlessHeroes;
+	private int pullsWithoutFocusOrFive; 
+	private int sessionPulls;
+	private int totalPulls;
+	private int redHeroes;
+	private int blueHeroes; 
+	private int greenHeroes; 
+	private int colorlessHeroes;
 	
-	private double initialFocusRate, initialFiveRate, initialFourRate, initialThreeRate, currentFocusRate, currentFiveRate, currentFourRate, currentThreeRate, 
-		focusRateIncrease, fiveRateIncrease, fourRateDecrease, threeRateDecrease;
+	private double initialFocusRate; 
+	private double initialFiveRate;
+	private double initialFourRate; 
+	private double initialThreeRate; 
+	private double currentFocusRate; 
+	private double currentFiveRate;
+	private double currentFourRate; 
+	private double currentThreeRate; 
+	private double focusRateIncrease; 
+	private double fiveRateIncrease;
+	private double fourRateDecrease; 
+	private double threeRateDecrease;
 
-	private List<String> redFocusList, redFiveList, redFourList, redThreeList, blueFocusList, blueFiveList, blueFourList, blueThreeList,
-		greenFocusList, greenFiveList, greenFourList, greenThreeList, colorlessFocusList, colorlessFiveList, colorlessFourList, colorlessThreeList,
-		focusList, fiveList, fourList, threeList, summonedFocusList, summonedFiveList, summonedFourList, summonedThreeList, preferredColors;
+	private List<String> redFocusList; 
+	private List<String> redFiveList; 
+	private List<String> redFourList; 
+	private List<String> redThreeList; 
+	private List<String> blueFocusList; 
+	private List<String> blueFiveList; 
+	private List<String> blueFourList; 
+	private List<String> blueThreeList;
+	private List<String> greenFocusList; 
+	private List<String> greenFiveList; 
+	private List<String> greenFourList; 
+	private List<String> greenThreeList; 
+	private List<String> colorlessFocusList; 
+	private List<String> colorlessFiveList; 
+	private List<String> colorlessFourList; 
+	private List<String> colorlessThreeList;
+	private List<String> focusList; 
+	private List<String> fiveList; 
+	private List<String> fourList; 
+	private List<String> threeList; 
+	private List<String> summonedFocusList; 
+	private List<String> summonedFiveList; 
+	private List<String> summonedFourList; 
+	private List<String> summonedThreeList; 
+	private List<String> preferredColors;
 		
 	public Summoner() {		
 		redFocusList = new ArrayList<String>();
@@ -70,7 +108,7 @@ public class Summoner {
 		return currentThreeRate;
 	}
 	
-	// TODO: Describe this method.
+	// Updates instance variables with corresponding information from the specified banner.
 	public void setupBanner(String bannerName) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("Banners\\" + bannerName + "\\Heroes.txt"));
@@ -120,29 +158,21 @@ public class Summoner {
 		focusList.addAll(blueFocusList);
 		focusList.addAll(greenFocusList);
 		focusList.addAll(colorlessFocusList);
-		
-	 // System.out.println("Focus heroes: " + focusList);
-		
+
 		fiveList.addAll(redFiveList);
 		fiveList.addAll(blueFiveList);
 		fiveList.addAll(greenFiveList);
 		fiveList.addAll(colorlessFiveList);
-		
-	 // System.out.println("5-star heroes: " + fiveList);
 		
 		fourList.addAll(redFourList);
 		fourList.addAll(blueFourList);
 		fourList.addAll(greenFourList);
 		fourList.addAll(colorlessFourList);
 		
-	 // System.out.println("4-star heroes: " + fourList);
-		
 		threeList.addAll(redThreeList);
 		threeList.addAll(blueThreeList);
 		threeList.addAll(greenThreeList);
 		threeList.addAll(colorlessThreeList);
-		
-	 // System.out.println("3-star heroes: " + threeList);
 		
 		// All colors are preferred at the beginning.
 		preferredColors.add("red");
@@ -193,25 +223,16 @@ public class Summoner {
 		totalPulls = 0;
 	}
 	
-	// TODO: Describe this method.
+	/*  Calculates and determines which heroes are present in a summoning session,
+	 *  and summons those heroes with colors present in the preferredColors list.
+	 *  Returns an array of String lists containing the summoned heroes of each rarity.
+	 */ 
 	public List<String>[] pull(int pulls) {
 		List<String>[] listArray = new List[4];
 		
 		if (pulls < 1 || pulls > 5) {
 			System.out.println("Error: Invalid number of pulls entered. Please enter a value from 1-5.");
-		} else {
-			boolean focusOrFiveSummoned = false;
-			sessionPulls = 0;
-			
-			List newFocusList = new ArrayList<String>();
-			List newFiveList = new ArrayList<String>();
-			List newFourList = new ArrayList<String>();
-			List newThreeList = new ArrayList<String>();
-			listArray[0] = newFocusList;
-			listArray[1] = newFiveList;
-			listArray[2] = newFourList;
-			listArray[3] = newThreeList;
-			
+		} else {			
 			// Determines the rarity, hero, & color of all five orbs in a summoning session.
 			String[] rarityArray = new String[5];
 			String[] heroArray = new String[5];
@@ -291,6 +312,18 @@ public class Summoner {
 			
 			// Determines which heroes will be summoned based on color preferences.
 			// TODO: Edit for priority.
+			boolean focusOrFiveSummoned = false;
+			sessionPulls = 0;
+			
+			List newFocusList = new ArrayList<String>();
+			List newFiveList = new ArrayList<String>();
+			List newFourList = new ArrayList<String>();
+			List newThreeList = new ArrayList<String>();
+			listArray[0] = newFocusList;
+			listArray[1] = newFiveList;
+			listArray[2] = newFourList;
+			listArray[3] = newThreeList;
+			
 			for (int i = 0; i < 5; i++) {
 				if (sessionPulls != pulls) {
 					if (preferredColors.contains(colorArray[i]) == true) {					
@@ -338,12 +371,6 @@ public class Summoner {
 			}
 			
 			totalPulls = totalPulls + sessionPulls;
-			System.out.println("Total pulls: " + totalPulls);
-
-			System.out.println("Summoned focus heroes: " + summonedFocusList);
-			System.out.println("Summoned five heroes: " + summonedFiveList);
-			System.out.println("Summoned four heroes: " + summonedFourList);
-			System.out.println("Summoned three heroes: " + summonedThreeList);
 			
 			// Change appearance rates based on whether or not a focus or 5-star hero was summoned.
 			if (focusOrFiveSummoned == true) {
@@ -371,7 +398,7 @@ public class Summoner {
 	}
 	
 	// Edits the contents of preferredColors based on whether preferredColors already contains the input or not.
-	// Returns false if user is trying to remove the last preferred color.
+	// Returns false if user is trying to remove the last preferred color, otherwise returns true.
 	public Boolean changePreferredColors(String color) {
 		if (preferredColors.contains(color)) {
 			if (preferredColors.size() != 1) {
