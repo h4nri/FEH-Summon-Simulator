@@ -13,10 +13,6 @@ public class Summoner {
 	private int pullsWithoutFocusOrFive; 
 	private int sessionPulls;
 	private int totalPulls;
-	private int redHeroes;
-	private int blueHeroes; 
-	private int greenHeroes; 
-	private int colorlessHeroes;
 	
 	private double initialFocusRate; 
 	private double initialFiveRate;
@@ -87,11 +83,7 @@ public class Summoner {
 		
 		preferredColors = new ArrayList<String>();
 	}
-	
-	public int getSessionPulls() {
-		return sessionPulls;
-	}
-	
+		
 	public double getCurrentFocusRate() {
 		return currentFocusRate;
 	}
@@ -106,6 +98,38 @@ public class Summoner {
 	
 	public double getCurrentThreeRate() {
 		return currentThreeRate;
+	}
+	
+	public double getInitialFocusRate() {
+		return initialFocusRate;
+	}
+	
+	public double getInitialFiveRate() {
+		return initialFiveRate;
+	}
+	
+	public double getInitialFourRate() {
+		return initialFourRate;
+	}
+	
+	public double getInitialThreeRate() {
+		return initialThreeRate;
+	}
+	
+	public List<String> getFocusList() {
+		return focusList;
+	}
+	
+	public int getPullsWithoutFocusOrFive() {
+		return pullsWithoutFocusOrFive;
+	}
+	
+	public int getSessionPulls() {
+		return sessionPulls;
+	}
+	
+	public int getTotalPulls() {
+		return totalPulls;
 	}
 	
 	// Updates instance variables with corresponding information from the specified banner.
@@ -179,12 +203,6 @@ public class Summoner {
 		preferredColors.add("blue");
 		preferredColors.add("green");
 		preferredColors.add("colorless");
-		
-		// Calculates and stores the total number of heroes for each color. Do I really need these variables?
-		redHeroes = redFocusList.size() + redFiveList.size() + redFourList.size() + redThreeList.size();
-		blueHeroes = blueFocusList.size() + blueFiveList.size() + blueFourList.size() + blueThreeList.size();
-		greenHeroes = greenFocusList.size() + greenFiveList.size() + greenFourList.size() + greenThreeList.size();
-		colorlessHeroes = colorlessFocusList.size() + colorlessFiveList.size() + colorlessFourList.size() + colorlessThreeList.size();
 		
 		// Legendary banners do not contain 5-star heroes (aside from the focus ones), and therefore have different appearance rates.
 		if (fiveList.size() != 0) {
@@ -411,5 +429,35 @@ public class Summoner {
 		}
 		
 		return true;
+	}
+	
+	public String calculateSnipeRate(String hero) {
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+			
+		double numerator = Double.parseDouble(df.format(initialFocusRate * (1.0 / (double) focusList.size())));
+		double denominator = 0.0;
+		
+		if (redFocusList.contains(hero)) {
+			denominator = Double.parseDouble(df.format(numerator + (initialFiveRate * ((double) redFiveList.size() / (double) fiveList.size())) 
+					+ (initialFourRate * ((double) redFourList.size() / (double) fourList.size())) 
+					+ (initialThreeRate * ((double) redThreeList.size() / (double) threeList.size()))));
+		} else if (blueFocusList.contains(hero)) {
+			denominator = Double.parseDouble(df.format(numerator + (initialFiveRate * ((double) blueFiveList.size() / (double) fiveList.size())) 
+					+ (initialFourRate * ((double) blueFourList.size() / (double) fourList.size())) 
+					+ (initialThreeRate * ((double) blueThreeList.size() / (double) threeList.size()))));
+		} else if (greenFocusList.contains(hero)) {
+			denominator = Double.parseDouble(df.format(numerator + (initialFiveRate * ((double) greenFiveList.size() / (double) fiveList.size())) 
+					+ (initialFourRate * ((double) greenFourList.size() / (double) fourList.size())) 
+					+ (initialThreeRate * ((double) greenThreeList.size() / (double) threeList.size()))));
+		} else if (colorlessFocusList.contains(hero)) {
+			denominator = Double.parseDouble(df.format(numerator + (initialFiveRate * ((double) colorlessFiveList.size() / (double) fiveList.size())) 
+					+ (initialFourRate * ((double) colorlessFourList.size() / (double) fourList.size())) 
+					+ (initialThreeRate * ((double) colorlessThreeList.size() / (double) threeList.size()))));
+		} else {
+			return "Error!";
+		}
+		
+		return df.format((numerator / denominator) * 100.0) + "%";
 	}
 }

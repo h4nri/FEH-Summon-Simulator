@@ -17,12 +17,23 @@ public class GUI implements ActionListener {
 	private JButton massSummonButton;
 	private JComboBox bannersComboBox;
 	private JDialog sessionsDialog;
+	private JDialog statsDialog;
 	private JFrame mainFrame;
 	private JLabel bannerImageLabel;
 	private JLabel currentFocusRateLabel; 
 	private JLabel currentFiveRateLabel; 
 	private JLabel currentFourRateLabel; 
 	private JLabel currentThreeRateLabel;
+	private JLabel statsInitialFocusRateLabel;
+	private JLabel statsInitialFiveRateLabel;
+	private JLabel statsInitialFourRateLabel;
+	private JLabel statsInitialThreeRateLabel;
+	private JLabel currentPityStreakLabel;
+	private JLabel currentTotalPullsLabel;
+	private JMenu windowMenu;
+	private JMenuBar menuBar;
+	private JMenuItem summonsMenuItem;
+	private JMenuItem statisticsMenuItem;
 	private JPanel mainPanel;
 	private JPanel bannerPanel;
 	private JPanel bannerSelectPanel;
@@ -37,7 +48,10 @@ public class GUI implements ActionListener {
 	private JPanel summonedFivePanel; 
 	private JPanel sessionsFormatPanel;
 	private JPanel sessionsHeaderPanel;
-	private JPanel sessionsSummonsPanel; 
+	private JPanel sessionsSummonsPanel;
+	private JPanel statsPanel;
+	private JPanel snipeRatesPanel;
+	private JPanel statsPullPanel;
 	private JRadioButton oneRadioButton;
 	private JRadioButton twoRadioButton;
 	private JRadioButton threeRadioButton;
@@ -51,7 +65,7 @@ public class GUI implements ActionListener {
 	private JToggleButton bluePreferenceButton;
 	private JToggleButton greenPreferenceButton;
 	private JToggleButton colorlessPreferenceButton;
-	
+
 	private ButtonGroup buttonGroup;
 	private Summoner summoner;
 	
@@ -88,6 +102,28 @@ public class GUI implements ActionListener {
 		bannerPanel = new JPanel(new BorderLayout());
 		bannerPanel.add(bannerSelectPanel, BorderLayout.NORTH);
 		bannerPanel.add(bannerImageLabel, BorderLayout.CENTER);
+		
+		// Initializes and sets up menuBar and its components.		
+		Font menuFont = new Font("Segoe UI", Font.PLAIN, 12);
+		
+		summonsMenuItem = new JMenuItem("Show/Hide Summons");
+		summonsMenuItem.addActionListener(this);
+		summonsMenuItem.setBackground(Color.WHITE);
+		summonsMenuItem.setFont(menuFont);
+		
+		statisticsMenuItem = new JMenuItem("Show/Hide Statistics");
+		statisticsMenuItem.addActionListener(this);
+		statisticsMenuItem.setBackground(Color.WHITE);
+		statisticsMenuItem.setFont(menuFont);
+		
+		windowMenu = new JMenu("Window");
+		windowMenu.add(summonsMenuItem);
+		windowMenu.add(statisticsMenuItem);
+		windowMenu.setFont(menuFont);
+		
+		menuBar = new JMenuBar();
+		menuBar.add(windowMenu);
+		menuBar.setBackground(Color.WHITE);
 		
 		// Initializes and sets up the four color preference buttons.
 		// TODO: Change the ImageIcons.
@@ -286,13 +322,14 @@ public class GUI implements ActionListener {
 		mainFrame = new JFrame("Fire Emblem Heroes Summon Simulator");
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setJMenuBar(menuBar);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.pack();
 		
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - mainFrame.getWidth()) / 2);
-	    mainFrame.setLocation(x, 20);
+	    mainFrame.setLocation(x, 0);
 
 		// Initializes and sets up sessionsDialog's components.		
 		JLabel sessionNumberLabel = new JLabel("Session", SwingConstants.CENTER);
@@ -318,17 +355,132 @@ public class GUI implements ActionListener {
 		// Initializes and sets up sessionsDialog.
 		sessionsDialog = new JDialog(mainFrame, "Summons", Dialog.ModalityType.MODELESS);
 		sessionsDialog.setContentPane(sessionsScrollPane);
-		sessionsDialog.setLocation((mainFrame.getX() + (mainFrame.getWidth())), 20);
+		sessionsDialog.setLocation((mainFrame.getX() + (mainFrame.getWidth())), mainFrame.getY());
 		sessionsDialog.setResizable(false);
 		sessionsDialog.setVisible(true);
 		sessionsDialog.pack();
+		
+		// Initializes and sets up statsApperanceRatesPanel and its components.	
+		JLabel statsAppearanceRatesLabel = new JLabel("Initial Appearance Rates", SwingConstants.CENTER);
+		JLabel statsFocusRateLabel = new JLabel("Focus:", SwingConstants.LEFT);
+		statsInitialFocusRateLabel = new JLabel(Double.toString(summoner.getInitialFocusRate()), SwingConstants.LEFT);		
+		JLabel statsFiveRateLabel = new JLabel("Five:", SwingConstants.LEFT);
+		statsInitialFiveRateLabel = new JLabel(Double.toString(summoner.getInitialFiveRate()), SwingConstants.LEFT);	
+		JLabel statsFourRateLabel = new JLabel("Four:", SwingConstants.LEFT);
+		statsInitialFourRateLabel = new JLabel(Double.toString(summoner.getInitialFourRate()), SwingConstants.LEFT);	
+		JLabel statsThreeRateLabel = new JLabel("Three:", SwingConstants.LEFT);
+		statsInitialThreeRateLabel = new JLabel(Double.toString(summoner.getInitialThreeRate()), SwingConstants.LEFT);
+		
+		JPanel statsAppearanceRatesPanel = new JPanel(new GridBagLayout());		
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 4;
+		constraints.insets = new Insets(4, 0, 0, 0);
+		statsAppearanceRatesPanel.add(statsAppearanceRatesLabel, constraints);
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		constraints.insets = new Insets(4, 0, 0, 15);
+		statsAppearanceRatesPanel.add(statsFocusRateLabel, constraints);
+		constraints.gridx = 1;
+		statsAppearanceRatesPanel.add(statsInitialFocusRateLabel, constraints);		
+		constraints.gridx = 2;
+		constraints.insets = new Insets(4, 15, 0, 15);
+		statsAppearanceRatesPanel.add(statsFiveRateLabel, constraints);
+		constraints.gridx = 3;
+		constraints.insets = new Insets(4, 0, 0, 0);
+		statsAppearanceRatesPanel.add(statsInitialFiveRateLabel, constraints);		
+		constraints.gridy = 2;
+		constraints.insets = new Insets(4, 0, 10, 0);
+		statsAppearanceRatesPanel.add(statsInitialThreeRateLabel, constraints);		
+		constraints.gridx = 2;
+		constraints.insets = new Insets(4, 15, 10, 15);
+		statsAppearanceRatesPanel.add(statsThreeRateLabel, constraints);
+		constraints.gridx = 1;
+		constraints.insets = new Insets(4, 0, 10, 15);
+		statsAppearanceRatesPanel.add(statsInitialFourRateLabel, constraints);		
+		constraints.gridx = 0;
+		statsAppearanceRatesPanel.add(statsFourRateLabel, constraints);
+		
+		// Initializes and sets up snipeRatesPanel and its components.	
+		snipeRatesPanel = new JPanel(new GridBagLayout());
+		List<String> bannerFocusList = summoner.getFocusList();
+		constraints.insets = new Insets(4, 0, 0, 0);
+		
+		for (int i = 0; i < bannerFocusList.size(); i++) {
+			JLabel focusHeroImageLabel = new JLabel(new ImageIcon("Hero Icons\\" + bannerFocusList.get(i) + ".png"));
+			focusHeroImageLabel.setPreferredSize(new Dimension(60, 50));
+			
+			JLabel focusHeroRateLabel = new JLabel(summoner.calculateSnipeRate(bannerFocusList.get(i)), SwingConstants.CENTER);
+			focusHeroRateLabel.setPreferredSize(new Dimension(60, 12));
+			
+			constraints.gridx = i;
+			constraints.gridy = 1;
+			snipeRatesPanel.add(focusHeroImageLabel, constraints);
+			constraints.gridy = 2;
+			snipeRatesPanel.add(focusHeroRateLabel, constraints);
+		}
+		
+		JLabel snipeRatesLabel = new JLabel("Initial Snipe Rates", SwingConstants.CENTER);
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = bannerFocusList.size();
+		constraints.anchor = GridBagConstraints.CENTER;
+		snipeRatesPanel.add(snipeRatesLabel, constraints);
+		
+		// Initializes and sets up statsPullPanel and its components.
+		JLabel pityStreakLabel = new JLabel("Pity Streak: ", SwingConstants.LEFT);
+		currentPityStreakLabel = new JLabel("0", SwingConstants.LEFT);
+		currentPityStreakLabel.setPreferredSize(new Dimension(50, 24));
+		JLabel totalPullsLabel = new JLabel("Total Pulls: ", SwingConstants.LEFT);
+		currentTotalPullsLabel = new JLabel("0", SwingConstants.LEFT);
+		currentTotalPullsLabel.setPreferredSize(new Dimension(50, 24));
+		
+		statsPullPanel = new JPanel();
+		statsPullPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 4, 10));
+		statsPullPanel.setLayout(new BoxLayout(statsPullPanel, BoxLayout.X_AXIS));
+		statsPullPanel.add(pityStreakLabel);
+		statsPullPanel.add(currentPityStreakLabel);
+		statsPullPanel.add(Box.createHorizontalGlue());
+		statsPullPanel.add(totalPullsLabel);
+		statsPullPanel.add(currentTotalPullsLabel);
+		
+		// Initializes and sets up statsPanel.		
+		statsPanel = new JPanel(new BorderLayout());
+		statsPanel.add(statsAppearanceRatesPanel, BorderLayout.NORTH);
+		statsPanel.add(snipeRatesPanel, BorderLayout.CENTER);
+		statsPanel.add(statsPullPanel, BorderLayout.SOUTH);
+			
+		// Initializes and sets up statsDialog.
+		statsDialog = new JDialog(mainFrame, "Statistics", Dialog.ModalityType.MODELESS);
+		statsDialog.setContentPane(statsPanel);
+		statsDialog.setResizable(false);
+		statsDialog.setVisible(true);
+		statsDialog.pack();
+		statsDialog.setLocation((mainFrame.getX() - (statsDialog.getWidth())), mainFrame.getY());
+		
+		mainFrame.toFront();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		
-		if (action.equals("Select")) {
+		if (action.equals("Show/Hide Summons")) {
+			if (sessionsDialog.isVisible() == true) {
+				sessionsDialog.setVisible(false);
+			} else {
+				sessionsDialog.setLocation((mainFrame.getX() + (mainFrame.getWidth())), mainFrame.getY());
+				sessionsDialog.setVisible(true);		
+			}
+		} else if (action.equals("Show/Hide Statistics")) {
+			if (statsDialog.isVisible() == true) {
+				statsDialog.setVisible(false);
+			} else {
+				statsDialog.setLocation((mainFrame.getX() - (statsDialog.getWidth())), mainFrame.getY());
+				statsDialog.setVisible(true);		
+			}
+		} else if (action.equals("Select")) {
 			// Yes = 0 and No = 1.
 			int selectBannerOption = JOptionPane.showConfirmDialog(
 				    mainFrame,
@@ -338,10 +490,18 @@ public class GUI implements ActionListener {
 				    JOptionPane.YES_NO_OPTION);
 			
 			if (selectBannerOption == 0) {
-				bannerImageLabel.setIcon(new ImageIcon("Banners\\" + bannersComboBox.getSelectedItem().toString() + "\\Image.png"));
+				String selectedBanner = bannersComboBox.getSelectedItem().toString();
 				
+				bannerImageLabel.setIcon(new ImageIcon("Banners\\" + selectedBanner + "\\Image.png"));			
 				summoner = new Summoner();
-				summoner.setupBanner(bannersComboBox.getSelectedItem().toString());
+				summoner.setupBanner(selectedBanner);
+				
+				// TODO: Change images.
+				redPreferenceButton.setIcon(new ImageIcon("Banners\\Scattered Fangs\\Image.png"));
+				bluePreferenceButton.setIcon(new ImageIcon("Banners\\Scattered Fangs\\Image.png"));
+				greenPreferenceButton.setIcon(new ImageIcon("Banners\\Summer's Arrival\\Image.png"));
+				colorlessPreferenceButton.setIcon(new ImageIcon("Banners\\Scattered Fangs\\Image.png"));
+				
 				currentFocusRateLabel.setText(Double.toString(summoner.getCurrentFocusRate()));
 				currentFiveRateLabel.setText(Double.toString(summoner.getCurrentFiveRate()));
 				currentFourRateLabel.setText(Double.toString(summoner.getCurrentFourRate()));
@@ -350,10 +510,46 @@ public class GUI implements ActionListener {
 				summonedFocusPanel.removeAll();
 				summonedFivePanel.removeAll();
 				sessionsSummonsPanel.removeAll();
-				sessionsRow = 1;
+				sessionsRow = 0;
+				
+				statsInitialFocusRateLabel.setText(Double.toString(summoner.getInitialFocusRate()));
+				statsInitialFiveRateLabel.setText(Double.toString(summoner.getInitialFiveRate()));
+				statsInitialFourRateLabel.setText(Double.toString(summoner.getInitialFourRate()));
+				statsInitialThreeRateLabel.setText(Double.toString(summoner.getInitialThreeRate()));
+				
+				// Updates snipeRatesPanel with sniping information for the selected banner.
+				snipeRatesPanel.removeAll();
+				List<String> bannerFocusList = summoner.getFocusList();
+				GridBagConstraints setupConstraints = new GridBagConstraints();
+				setupConstraints.insets = new Insets(4, 0, 0, 0);
+				
+				for (int i = 0; i < bannerFocusList.size(); i++) {
+					JLabel focusHeroImageLabel = new JLabel(new ImageIcon("Hero Icons\\" + bannerFocusList.get(i) + ".png"));
+					focusHeroImageLabel.setPreferredSize(new Dimension(60, 50));
+					
+					JLabel focusHeroRateLabel = new JLabel(summoner.calculateSnipeRate(bannerFocusList.get(i)), SwingConstants.CENTER);
+					focusHeroRateLabel.setPreferredSize(new Dimension(60, 12));
+					
+					setupConstraints.gridx = i;
+					setupConstraints.gridy = 1;
+					snipeRatesPanel.add(focusHeroImageLabel, setupConstraints);
+					setupConstraints.gridy = 2;
+					snipeRatesPanel.add(focusHeroRateLabel, setupConstraints);
+				}
+				
+				JLabel snipeRatesLabel = new JLabel("Initial Snipe Rates", SwingConstants.CENTER);
+				setupConstraints.gridx = 0;
+				setupConstraints.gridy = 0;
+				setupConstraints.gridwidth = bannerFocusList.size();
+				snipeRatesPanel.add(snipeRatesLabel, setupConstraints);
+				
+				currentPityStreakLabel.setText("0"); 
+				currentTotalPullsLabel.setText("0");
 				
 				sessionsSummonsPanel.repaint();
 				sessionsSummonsPanel.revalidate();
+				statsPanel.repaint();
+				statsPanel.revalidate();
 				mainPanel.repaint();
 				mainPanel.revalidate();
 			}
@@ -543,5 +739,11 @@ public class GUI implements ActionListener {
 		sessionsScrollBar.setValue(sessionsScrollBar.getMaximum());
 		
 		sessionsRow++;
+		
+		// Update statsPanel.
+		currentPityStreakLabel.setText(Integer.toString(summoner.getPullsWithoutFocusOrFive()));
+		currentTotalPullsLabel.setText(Integer.toString(summoner.getTotalPulls()));
+		statsPanel.repaint();
+		statsPanel.revalidate();
 	}
 }
