@@ -96,8 +96,8 @@ public class GUI implements ActionListener {
 		bannerSelectPanel.add(selectBannerButton);
 		
 		// Initializes and sets up bannerImageLabel & bannerPanel.
-		bannerImageLabel = new JLabel(new ImageIcon("Banners\\" + bannersComboBox.getSelectedItem() + "\\Image.png"));
-		bannerImageLabel.setPreferredSize(new Dimension(428, 301));   // TODO: Change these dimensions to match whatever standard I decide on in the future.
+		bannerImageLabel = new JLabel(new ImageIcon("Banners\\" + bannersComboBox.getSelectedItem() + "\\Banner Image.png"));
+		bannerImageLabel.setPreferredSize(new Dimension(425, 308));
 
 		bannerPanel = new JPanel(new BorderLayout());
 		bannerPanel.add(bannerSelectPanel, BorderLayout.NORTH);
@@ -126,23 +126,22 @@ public class GUI implements ActionListener {
 		menuBar.setBackground(Color.WHITE);
 		
 		// Initializes and sets up the four color preference buttons.
-		// TODO: Change the ImageIcons.
-		ImageIcon preferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");	
+		ImageIcon preferenceImage = new ImageIcon("Orb Icons\\Red Orb.png");	
 		redPreferenceButton = new JToggleButton(preferenceImage, true);
 		redPreferenceButton.addActionListener(this);
 		redPreferenceButton.setPreferredSize(new Dimension(50, 50));
 		
-		preferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");	
+		preferenceImage = new ImageIcon("Orb Icons\\Blue Orb.png");	
 		bluePreferenceButton = new JToggleButton(preferenceImage, true);
 		bluePreferenceButton.addActionListener(this);
 		bluePreferenceButton.setPreferredSize(new Dimension(50, 50));
 		
-		preferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");	
+		preferenceImage = new ImageIcon("Orb Icons\\Green Orb.png");	
 		greenPreferenceButton = new JToggleButton(preferenceImage, true);
 		greenPreferenceButton.addActionListener(this);
 		greenPreferenceButton.setPreferredSize(new Dimension(50, 50));
 		
-		preferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");	
+		preferenceImage = new ImageIcon("Orb Icons\\Colorless Orb.png");	
 		colorlessPreferenceButton = new JToggleButton(preferenceImage, true);
 		colorlessPreferenceButton.addActionListener(this);
 		colorlessPreferenceButton.setPreferredSize(new Dimension(50, 50));
@@ -492,15 +491,19 @@ public class GUI implements ActionListener {
 			if (selectBannerOption == 0) {
 				String selectedBanner = bannersComboBox.getSelectedItem().toString();
 				
-				bannerImageLabel.setIcon(new ImageIcon("Banners\\" + selectedBanner + "\\Image.png"));			
+				bannerImageLabel.setIcon(new ImageIcon("Banners\\" + selectedBanner + "\\Banner Image.png"));			
 				summoner = new Summoner();
 				summoner.setupBanner(selectedBanner);
 				
-				// TODO: Change images.
-				redPreferenceButton.setIcon(new ImageIcon("Banners\\Scattered Fangs\\Image.png"));
-				bluePreferenceButton.setIcon(new ImageIcon("Banners\\Scattered Fangs\\Image.png"));
-				greenPreferenceButton.setIcon(new ImageIcon("Banners\\Summer's Arrival\\Image.png"));
-				colorlessPreferenceButton.setIcon(new ImageIcon("Banners\\Scattered Fangs\\Image.png"));
+				redPreferenceButton.setSelected(true);
+				bluePreferenceButton.setSelected(true);
+				greenPreferenceButton.setSelected(true);
+				colorlessPreferenceButton.setSelected(true);
+				
+				redPreferenceButton.setIcon(new ImageIcon("Orb Icons\\Red Orb.png"));
+				bluePreferenceButton.setIcon(new ImageIcon("Orb Icons\\Blue Orb.png"));
+				greenPreferenceButton.setIcon(new ImageIcon("Orb Icons\\Green Orb.png"));
+				colorlessPreferenceButton.setIcon(new ImageIcon("Orb Icons\\Colorless Orb.png"));
 				
 				currentFocusRateLabel.setText(Double.toString(summoner.getCurrentFocusRate()));
 				currentFiveRateLabel.setText(Double.toString(summoner.getCurrentFiveRate()));
@@ -583,15 +586,14 @@ public class GUI implements ActionListener {
 			
 			resultsPanel.repaint();
 			resultsPanel.revalidate();		
-		// TODO: Change the ImageIcons.
 		} else if (e.getSource().equals(redPreferenceButton)) {
 			if (summoner.changePreferredColors("red") == true) {
 				ImageIcon newPreferenceImage;
 				
 				if (redPreferenceButton.isSelected() == true) {
-					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\Red Orb.png");
 				} else {
-					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\X Red Orb.png");
 				}
 				
 				redPreferenceButton.setIcon(newPreferenceImage);
@@ -606,9 +608,9 @@ public class GUI implements ActionListener {
 				ImageIcon newPreferenceImage;
 				
 				if (bluePreferenceButton.isSelected() == true) {
-					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\Blue Orb.png");
 				} else {
-					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\X Blue Orb.png");
 				}
 				
 				bluePreferenceButton.setIcon(newPreferenceImage);
@@ -623,9 +625,9 @@ public class GUI implements ActionListener {
 				ImageIcon newPreferenceImage;
 				
 				if (greenPreferenceButton.isSelected() == true) {
-					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\Green Orb.png");
 				} else {
-					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\X Green Orb.png");
 				}
 				
 				greenPreferenceButton.setIcon(newPreferenceImage);
@@ -640,9 +642,9 @@ public class GUI implements ActionListener {
 				ImageIcon newPreferenceImage;
 				
 				if (colorlessPreferenceButton.isSelected() == true) {
-					newPreferenceImage = new ImageIcon("Banners\\Scattered Fangs\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\Colorless Orb.png");
 				} else {
-					newPreferenceImage = new ImageIcon("Banners\\Summer's Arrival\\Image.png");
+					newPreferenceImage = new ImageIcon("Orb Icons\\X Colorless Orb.png");
 				}
 				
 				colorlessPreferenceButton.setIcon(newPreferenceImage);
@@ -656,7 +658,6 @@ public class GUI implements ActionListener {
 	}
 	
 	// Takes the returned List<String>[] from the Summoner class's "pull" method and updates the summoned panels.
-	// TODO: Update rarity images.
 	private void addToSummonedPanels(List<String>[] listArray) {		
 		GridBagConstraints constraints = new GridBagConstraints();
 		

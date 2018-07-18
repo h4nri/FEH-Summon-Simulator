@@ -6,7 +6,7 @@ To add a new banner to the simulator...
 
 2. Create a new text file called "Heroes.txt" within that new folder.
 
-3. Add the summonable heroes (seperated by commas) from that banner to "Heroes.txt" 
+3. Add the summonable heroes (seperated by commas, no spaces!) from that banner to "Heroes.txt" 
 in the following format (one list per line):
 
 	3a. red focus heroes  
@@ -28,15 +28,14 @@ in the following format (one list per line):
 
 If a list doesn't contain any heroes, enter "None" on its line.
 
-4. Import the banner's image into its folder and name it "Image.png". The recommended
-size for the image is WidthxHeight.
+4. Import the banner's image into its folder and name it "Banner Image.png". The recommended
+size for the image is 425x308.
 
 5. Add the banner's name to a new line in "Banners.txt".
 
 6. If applicable, import icons for new heroes (downloaded from fireemblem.gamepress.gg).
 
 [TODO/Potential Future Updates]
-- Update preference and rarity images
 - Automatically move scroll bar to bottom of the "Summons" window's scroll pane
 - Add ability to set summoning priorities in terms of colors
 - Add list of all summoned heroes and their quantities sorted by color and then by rarity 
